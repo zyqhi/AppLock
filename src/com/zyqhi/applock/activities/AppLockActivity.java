@@ -146,6 +146,7 @@ public class AppLockActivity extends Activity {
 			}
 			this.recreate();
 			*/
+			//mAdapter.removeItem(0);
 			break;
 
 		default:

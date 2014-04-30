@@ -133,4 +133,9 @@ public class ListViewCustomAdapter extends BaseAdapter {
 		}
 	}
 	
+	public void removeItem(int index) {
+		mItemList.remove(index);
+		this.notifyDataSetChanged();
+	}
+	
 }
