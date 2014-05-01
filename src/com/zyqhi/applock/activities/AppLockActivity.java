@@ -41,13 +41,14 @@ public class AppLockActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_lock);
 		this.setTitle("Applications List");
+		/*
 		ProgressDialog mProgressDialog = ProgressDialog.show(
 				AppLockActivity.this, "",
 				getString(R.string.loading_application_list));
-		mProgressDialog.show();
-
+		*/
 		prepareArrayLists();
 
+		/*
 		Collections.sort(mItemList, new Comparator<Object>() {
 
 			@Override
@@ -60,18 +61,20 @@ public class AppLockActivity extends Activity {
 			}
 
 		});
-/*
+		*/
+
+		/*
 		Set<Object> mItemSet = new LinkedHashSet<Object>(mItemList);
 
 		mItemList.clear();
 		mItemList.addAll(mItemSet);
-*/
+		*/
 		mApplicationList = (ListView) findViewById(R.id.application_list);
-		mAdapter = new ListViewCustomAdapter(this, mItemList, false);
+		mAdapter = new ListViewCustomAdapter(this, mItemList);
 		// mAdapter.notifyDataSetChanged();
 		mApplicationList.setAdapter(mAdapter);
 
-		mProgressDialog.dismiss();
+		//mProgressDialog.dismiss();
 
 	}
 
@@ -124,31 +127,13 @@ public class AppLockActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			// Toast.makeText(getApplicationContext(), "hello",
-			// Toast.LENGTH_SHORT).show();
-			Intent i = new Intent(this, AppLockSettingsActivity.class);
-			// Intent i = new Intent(this, ChooseLockPattern.class);
-			startActivity(i);
-
+			//Intent i = new Intent(this, AppLockSettingsActivity.class);
+			//startActivity(i);
+			mAdapter.removeCheckedItems();
 			break;
 		case R.id.action_lock_apps:
-			//mAdapter.setShowCheckBox(true);
-			mAdapter.refreshAll();
-			/*
-			int index;
-			for (index = 0; index < mAdapter.getCount(); index++) {
-				
-				//mAdapter.getView(index, null, null);
-				
-				Toast.makeText(getApplicationContext(), mItemList.get(index).toString(),
-						Toast.LENGTH_SHORT).show();
-
-			}
-			this.recreate();
-			*/
-			//mAdapter.removeItem(0);
+			mAdapter.refreshAll();		
 			break;
-
 		default:
 			Toast.makeText(getApplicationContext(), "noting selected",
 					Toast.LENGTH_SHORT).show();

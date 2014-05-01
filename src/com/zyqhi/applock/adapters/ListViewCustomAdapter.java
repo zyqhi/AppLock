@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ public class ListViewCustomAdapter extends BaseAdapter {
 	private ArrayList<Object> mItemList;
 	private Activity mContext;
 	private LayoutInflater mInflater;
-	private boolean mShowCheckBox;
 	
 	public static class ViewHolder {
 		private ImageView mImgViewHolder;
@@ -34,9 +34,8 @@ public class ListViewCustomAdapter extends BaseAdapter {
 		
 	}
 
-	public ListViewCustomAdapter(Activity context, ArrayList<Object> itemList, boolean showCheckBox) {
+	public ListViewCustomAdapter(Activity context, ArrayList<Object> itemList) {
 		super();
-		mShowCheckBox = showCheckBox;
 		mContext = context;
 		mItemList = itemList;
 		mInflater = (LayoutInflater) context
@@ -77,8 +76,7 @@ public class ListViewCustomAdapter extends BaseAdapter {
 					.findViewById(R.id.text_hidden_package_name);
 			mHolder.mAppCheckBox = (CheckBox) convertView
 					.findViewById(R.id.application_checkbox);
-			// Hide the checkbox
-			
+
 			mHolder.mAppCheckBox
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 						@Override
@@ -92,14 +90,18 @@ public class ListViewCustomAdapter extends BaseAdapter {
 										.getText().toString());
 								app_item.setPackageName(mHolder.mTextViewHiddenPackageName
 										.getText().toString());
-								// Toast for debug
-								Toast.makeText(mContext,
-										"add value to database",
-										Toast.LENGTH_SHORT).show();
-								app_item.addValueToDatabase();
+
+								int index;
+								for (index = 0; index < mItemList.size(); index++) {
+									ApplicationItem appItem = (ApplicationItem) mItemList.get(index);
+									
+									if ((app_item.getPackageName()).equals(appItem.getPackageName()))
+										if ((app_item.getTitle()).equals(appItem.getTitle()))
+											appItem.setItemChecked(true);
+										//Toast.makeText(mContext, appItem.getPackageName(), Toast.LENGTH_SHORT).show();
+								}					
 							}
 						}
-
 					});
 
 			convertView.setTag(mHolder);
@@ -120,16 +122,26 @@ public class ListViewCustomAdapter extends BaseAdapter {
 		
 		return convertView;
 	}
-
-	public void setShowCheckBox(boolean showCheckBox) {
-		mShowCheckBox = showCheckBox;
-	}
 	
 	public void refreshAll() {
 		int index;
 		for (index = 0; index < mItemList.size(); index++) {
 			((ApplicationItem) mItemList.get(index)).setShowCheckBox(true);
 			this.notifyDataSetChanged();
+		}
+	}
+	
+	public void removeCheckedItems(){
+		//Toast.makeText(mContext,  "remove", Toast.LENGTH_SHORT).show();
+		int index;
+		for (index = 0; index < mItemList.size(); index++) {
+			if (((ApplicationItem) mItemList.get(index)).getItemChecked()) {
+				//Toast.makeText(mContext, index + "", Toast.LENGTH_SHORT).show();
+				//TODO: add item to lock table
+				this.removeItem(index);
+				index--;
+				continue;
+			}
 		}
 	}
 	

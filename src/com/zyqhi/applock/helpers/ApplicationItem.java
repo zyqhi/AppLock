@@ -12,8 +12,17 @@ public class ApplicationItem {
 	private Context mContext;
 	private long mItemId;
 	private boolean mShowCheckBox = false;
+	private boolean mItemChecked = false;
 	
 	private final static String TAG = "ApplicationItem";
+	
+	public void setItemChecked(boolean itemChecked) {
+		mItemChecked = itemChecked;
+	}
+	
+	public boolean getItemChecked() {
+		return mItemChecked;
+	}
 	
 	public void setShowCheckBox(boolean showCheckBox) {
 		mShowCheckBox = showCheckBox;
