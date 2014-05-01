@@ -25,27 +25,41 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class AppLockActivity extends Activity {
+public class AppLockActivity extends Activity implements OnClickListener {
 
 	private ListView mApplicationList;
 	private ListViewCustomAdapter mAdapter;
 	private ArrayList<Object> mItemList;
 	private ApplicationItem mApplicationItem;
 
+	private ListViewCustomAdapter mLockedAdapter;
+	private ArrayList<Object> mLockedItemList;
+	
+	private Button mCancelBtn;
+	private Button mConfirmBtn;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_lock);
 		this.setTitle("Applications List");
+		
 		/*
 		ProgressDialog mProgressDialog = ProgressDialog.show(
 				AppLockActivity.this, "",
 				getString(R.string.loading_application_list));
 		*/
+		mCancelBtn = (Button) findViewById(R.id.cancel_all_button);
+		mConfirmBtn = (Button) findViewById(R.id.confirm_button);
+		mCancelBtn.setOnClickListener(this);
+		mConfirmBtn.setOnClickListener(this);
+		
 		prepareArrayLists();
 
 		/*
@@ -63,6 +77,7 @@ public class AppLockActivity extends Activity {
 		});
 		*/
 
+		//remove apps appear more then once
 		/*
 		Set<Object> mItemSet = new LinkedHashSet<Object>(mItemList);
 
@@ -73,7 +88,7 @@ public class AppLockActivity extends Activity {
 		mAdapter = new ListViewCustomAdapter(this, mItemList);
 		// mAdapter.notifyDataSetChanged();
 		mApplicationList.setAdapter(mAdapter);
-
+		
 		//mProgressDialog.dismiss();
 
 	}
@@ -90,6 +105,7 @@ public class AppLockActivity extends Activity {
 				.queryIntentActivities(i, PackageManager.PERMISSION_GRANTED);
 
 		for (ResolveInfo resInfo : mList) {
+			//add application item to list
 			AddObjectToList(resInfo.activityInfo.applicationInfo.loadIcon(pm),
 					resInfo.activityInfo.applicationInfo.loadLabel(pm)
 							.toString(),
@@ -129,10 +145,19 @@ public class AppLockActivity extends Activity {
 		case R.id.action_settings:
 			//Intent i = new Intent(this, AppLockSettingsActivity.class);
 			//startActivity(i);
-			mAdapter.removeCheckedItems();
+			
+			mLockedItemList = new ArrayList<Object>();
+			
+			int index;
+			for (index = mItemList.size()/2; index < mItemList.size(); index++) {
+				mLockedItemList.add(mItemList.get(index));
+			}
+			//mLockedItemList.add(mItemList.get(0));
+			mLockedAdapter = new ListViewCustomAdapter(this, mLockedItemList);
+			mApplicationList.setAdapter(mLockedAdapter);
 			break;
 		case R.id.action_lock_apps:
-			mAdapter.refreshAll();		
+			mAdapter.setShowAllCheckBox(true);
 			break;
 		default:
 			Toast.makeText(getApplicationContext(), "noting selected",
@@ -140,6 +165,19 @@ public class AppLockActivity extends Activity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
+		switch (view.getId()) {
+		case R.id.confirm_button:
+			mAdapter.removeCheckedItems();
+			break;
+		case R.id.cancel_all_button:
+			mAdapter.setShowAllCheckBox(false);
+			break;
+		}
 	}
 
 }

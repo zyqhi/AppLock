@@ -123,10 +123,10 @@ public class ListViewCustomAdapter extends BaseAdapter {
 		return convertView;
 	}
 	
-	public void refreshAll() {
+	public void setShowAllCheckBox(boolean showAllCheckBoxFlag) {
 		int index;
 		for (index = 0; index < mItemList.size(); index++) {
-			((ApplicationItem) mItemList.get(index)).setShowCheckBox(true);
+			((ApplicationItem) mItemList.get(index)).setShowCheckBox(showAllCheckBoxFlag);
 			this.notifyDataSetChanged();
 		}
 	}

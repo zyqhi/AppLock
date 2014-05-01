@@ -7,17 +7,35 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AppLockActivity" >
-
-    <ListView 
-        android:id="@+id/application_list" 
-        android:layout_width="match_parent"
-				 android:layout_height="match_parent"></ListView>
     
-    <ImageButton 
-        android:background="@android:color/transparent"
-    		 
-    		 android:id="@+id/button_settings"
-    		 android:layout_width="wrap_content" 
-    		 android:layout_height="20sp"></ImageButton>
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="140dip"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/application_list"
+        android:layout_alignParentBottom="true"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/confirm_button_label" />
+    <Button
+        android:id="@+id/cancel_all_button"
+        android:layout_width="140dip"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/application_list"
+        android:layout_alignParentBottom="true"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/cancel_all_button_label" />
+    
+    <ListView
+        android:id="@+id/application_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/confirm_button"
+        android:layout_alignParentRight="true" >
+
+    </ListView>
+
+  
 
 </RelativeLayout>

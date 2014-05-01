@@ -5,6 +5,8 @@
   <string name="app_list">Applications List</string>	
   <string name="action_settings">Settings</string>
   <string name="action_lock_apps">Add Apps</string>
+  <string name="confirm_button_label">Confirm</string>
+  <string name="cancel_all_button_label">Cancel</string>
   
   <string name="hello_world">Hello world!</string>
   <string name="string_application_list">Application List</string>
